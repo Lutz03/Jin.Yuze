@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JIN YUZE · You're Invited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ball: #e8701a;
+    --ball-dark: #c45a0e;
+    --ink: #1a1410;
+    --muted: #6b5d52;
+    --court: #f6efe6;
+    --card: #fffdf9;
+    --line: #e4d8ca;
+    --error: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 50% 0, transparent 119px, rgba(232,112,26,.25) 120px, rgba(232,112,26,.25) 122px, transparent 123px),
+      var(--court);
+    padding: 0 16px 48px;
+  }
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .kicker {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .3em;
+    color: var(--ball-dark);
+    margin: 0 0 20px;
+  }
+  .photo-wrap { position: relative; width: 100%; max-width: 320px; margin-bottom: 32px; }
+  .photo {
+    border: 6px solid var(--ball);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+    background: var(--ball);
+    overflow: hidden;
+  }
+  /* Show the whole photo, no cropping */
+  .photo img { display: block; width: 100%; height: auto; }
+  .photo:not(:has(img)) { aspect-ratio: 4 / 5; display: grid; place-items: center; }
+  .photo:not(:has(img))::before { content: '🏀'; font-size: 5rem; }
+  .bouncer { position: absolute; right: -12px; bottom: -16px; width: 56px; height: 130px; pointer-events: none; }
+  .ball { position: absolute; bottom: 8px; width: 56px; height: 56px; transform-origin: 50% 100%; animation: bounce 1s infinite; }
+  .ball svg { display: block; width: 100%; height: 100%; animation: spin 2s linear infinite; }
+  .shadow { position: absolute; bottom: 0; left: 8px; width: 40px; height: 8px; border-radius: 50%; background: rgba(26,20,16,.35); animation: shadow 1s infinite; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1.15, .85); animation-timing-function: ease-out; }
+    8% { transform: translateY(-6px) scale(1); animation-timing-function: ease-out; }
+    50% { transform: translateY(-70px) scale(1); animation-timing-function: ease-in; }
+    92% { transform: translateY(-6px) scale(1); animation-timing-function: ease-in; }
+  }
+  @keyframes shadow {
+    0%, 100% { transform: scale(1); opacity: 1; animation-timing-function: ease-out; }
+    50% { transform: scale(.5); opacity: .4; animation-timing-function: ease-in; }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ball, .ball svg, .shadow { animation: none; }
+  }
+  .hero h1 { font-size: 4rem; margin: 0; }
+  .event { font-weight: 700; letter-spacing: .12em; margin: 8px 0 28px; }
+  .details {
+    width: 100%;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .details p { margin: 0 0 4px; }
+  .details .label { color: var(--muted); margin: 14px 0 4px; }
+  .details .label:first-child { margin-top: 0; }
+  .details strong { font-size: 1.1rem; }
+  .btn {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Anton', Impact, sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: .06em;
+    padding: 14px;
+    border-radius: 14px;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .btn.primary { background: var(--ball); border-color: var(--ball); color: #fff; }
+  .card {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    padding: 28px 22px;
+    box-shadow: 6px 6px 0 var(--ball);
+    scroll-margin-top: 16px;
+  }
+  h1 {
+    font-family: 'Anton', Impact, sans-serif;
+    font-weight: 400;
+    font-size: 2.5rem;
+    letter-spacing: .02em;
+    line-height: 1;
+    margin: 0 0 10px;
+  }
+  .lead { margin: 0 0 24px; color: var(--muted); font-weight: 500; }
+  label, .label {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    margin-bottom: 6px;
+  }
+  .field { margin-bottom: 18px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  input, textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px; /* prevents iOS zoom */
+    padding: 12px 14px;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+  }
+  input[type=number] { text-align: center; font-weight: 700; font-size: 1.25rem; }
+  input:focus, textarea:focus { outline: none; border-color: var(--ball); }
+  input:disabled { background: var(--court); color: var(--muted); }
+  #total {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 96px; }
+  .choices { display: grid; gap: 10px; }
+  .choices input { position: absolute; opacity: 0; pointer-events: none; }
+  .choices span {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .choices input:checked + span { background: var(--ink); color: #fff; }
+  .choices input[value="ATTENDING"]:checked + span { background: var(--ball); border-color: var(--ball); }
+  .choices input:focus-visible + span { outline: 3px solid var(--ball); outline-offset: 2px; }
+  button {
+    width: 100%;
+    font: inherit;
+    font-family: 'Anton', Impact, sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: .06em;
+    padding: 16px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--ball);
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover { background: var(--ball-dark); }
+  button:disabled { opacity: .6; cursor: wait; }
+  .error { color: var(--error); font-weight: 500; margin: 0 0 14px; min-height: 1em; }
+  .success { text-align: center; }
+  .success p { font-weight: 700; margin: 0 0 10px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <p class="kicker">YOU'RE INVITED</p>
+  <!-- Put the baby photo at images/baby.jpg -->
+  <div class="photo-wrap">
+    <div class="photo"><img src="images/baby.jpg" alt="Baby JIN YUZE" onerror="this.remove()"></div>
+    <div class="bouncer" aria-hidden="true">
+      <div class="ball">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#e8701a" stroke="#1a1410" stroke-width="4"/><path d="M50 4v92M4 50h92M20 16c18 20 18 48 0 68M80 16c-18 20-18 48 0 68" fill="none" stroke="#1a1410" stroke-width="4"/></svg>
+      </div>
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <h1>JIN YUZE</h1>
+  <p class="event">CHRISTENING</p>
+
+  <div class="details">
+    <p class="label">WHEN</p>
+    <p><strong>Sunday, December 6, 2026</strong></p>
+    <p>10:00 AM</p>
+    <p class="label">WHERE</p>
+    <p><strong>San Agustin Parish Church</strong></p>
+    <p>Market Ave, Palatiw, Pasig City</p>
+  </div>
+
+  <!-- Replace the text after query= with the church name + address (use + for spaces) -->
+  <a class="btn" href="https://www.google.com/maps/search/?api=1&query=H37M%2B7XR+Pasig+Metro+Manila" target="_blank" rel="noopener">📍 OPEN IN GOOGLE MAPS</a>
+  <a class="btn primary" href="#rsvp-card">RSVP NOW</a>
+</header>
+
+<main class="card" id="rsvp-card">
+  <form id="rsvp" novalidate>
+    <h1>JOIN THE TEAM</h1>
+    <p class="lead">Let us know if you'll be joining us for JIN YUZE's special day.</p>
+
+    <div class="field">
+      <label for="name">FULL NAME *</label>
+      <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required>
+    </div>
+
+    <div class="row field">
+      <div>
+        <label for="adult">ADULT GUESTS *</label>
+        <input id="adult" type="number" inputmode="numeric" min="0" step="1" value="1" required>
+      </div>
+      <div>
+        <label for="child">CHILD GUESTS *</label>
+        <input id="child" type="number" inputmode="numeric" min="0" step="1" value="0" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="total">TOTAL GUESTS</label>
+      <input id="total" type="number" value="1" readonly tabindex="-1">
+    </div>
+
+    <fieldset class="field" style="border:0;padding:0;margin:0 0 18px">
+      <legend class="label">WILL YOU BE THERE? *</legend>
+      <div class="choices">
+        <label><input type="radio" name="attendance" value="ATTENDING"><span>🏀 I'LL BE THERE</span></label>
+        <label><input type="radio" name="attendance" value="NOT ATTENDING"><span>I CAN'T MAKE IT</span></label>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label for="message">MESSAGE FOR JIN YUZE</label>
+      <textarea id="message" maxlength="1000" placeholder="Leave a special message for JIN YUZE..."></textarea>
+    </div>
+
+    <p class="error" id="error" role="alert"></p>
+    <button type="submit" id="submit">SUBMIT RSVP</button>
+  </form>
+
+  <div class="success" id="success" hidden></div>
+</main>
+
+<script>
+  // Paste your Apps Script web app /exec URL here.
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGJVnVvnLlnjocWHXFVvcy0xBjLTiC2MhlLjmSCBM5c3pKTyjRDjA8fgqJdtt5uXkaPg/exec';
+
+  const form = document.getElementById('rsvp');
+  const adult = document.getElementById('adult');
+  const child = document.getElementById('child');
+  const total = document.getElementById('total');
+  const nameInput = document.getElementById('name');
+  const message = document.getElementById('message');
+  const error = document.getElementById('error');
+  const submit = document.getElementById('submit');
+  let saved = { adult: adult.value, child: child.value };
+
+  const count = (input) => {
+    const n = Number(input.value);
+    return Number.isInteger(n) && n >= 0 ? n : 0;
+  };
+  const updateTotal = () => { total.value = count(adult) + count(child); };
+  adult.addEventListener('input', updateTotal);
+  child.addEventListener('input', updateTotal);
+
+  form.addEventListener('change', (e) => {
+    if (e.target.name !== 'attendance') return;
+    const notAttending = e.target.value === 'NOT ATTENDING';
+    if (notAttending) {
+      saved = { adult: adult.value, child: child.value };
+      adult.value = 0;
+      child.value = 0;
+    } else {
+      adult.value = saved.adult;
+      child.value = saved.child;
+    }
+    adult.disabled = child.disabled = notAttending;
+    updateTotal();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    error.textContent = '';
+
+    const name = nameInput.value.trim();
+    const attendance = form.attendance.value;
+    const valid = (input) => input.value !== '' && Number.isInteger(Number(input.value)) && Number(input.value) >= 0;
+
+    if (!name) return fail('Please enter your name.', nameInput);
+    if (!valid(adult) || !valid(child)) return fail('Guest counts must be whole numbers, 0 or more.', adult);
+    if (!attendance) return fail('Please tell us if you will be there.');
+    if (attendance === 'ATTENDING' && Number(total.value) < 1) return fail('Please add at least one guest.', adult);
+
+    submit.disabled = true;
+    submit.textContent = 'SENDING...';
+    try {
+      // text/plain avoids a CORS preflight, which Apps Script does not support.
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name,
+          adult_guest: count(adult),
+          child_guest: count(child),
+          total_guest: Number(total.value),
+          attendance,
+          message: message.value.trim(),
+        }),
+      });
+      const result = await res.json();
+      if (!result.ok) throw new Error(result.error);
+      showSuccess(result);
+    } catch (err) {
+      fail(err.message && !err.message.includes('fetch') ? err.message : 'Could not send your RSVP. Please check your connection and try again.');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'SUBMIT RSVP';
+    }
+  });
+
+  function fail(msg, focusEl) {
+    error.textContent = msg;
+    if (focusEl) focusEl.focus();
+  }
+
+  function showSuccess({ name, total_guest, attendance }) {
+    const box = document.getElementById('success');
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+    box.innerHTML = attendance === 'ATTENDING'
+      ? `<h1>YOU'RE ON THE ROSTER! 🏀</h1>
+         <p>Thank you, ${esc(name)}!</p>
+         <p>We have reserved space for ${total_guest} guest(s).</p>
+         <p>We can't wait to celebrate JIN YUZE's special day with you!</p>`
+      : `<p>Thank you, ${esc(name)}, for letting us know.</p>
+         <p>You'll be missed on JIN YUZE's special day. ❤️</p>`;
+    form.hidden = true;
+    box.hidden = false;
+    document.getElementById('rsvp-card').scrollIntoView();
+  }
+</script>
+</body>
+</html>
